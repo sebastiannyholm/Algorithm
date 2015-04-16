@@ -43,6 +43,7 @@ public class SizeOfNetworkDriver {
 		
 		new SizeOfNetwork();
 		
+		System.out.println("HELLO WORLD");
 	}
 	
-}
+} 
