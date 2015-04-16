@@ -35,9 +35,6 @@ class CloseFriendships {
 			incidensmatrix[i][j] = 1;
 			incidensmatrix[j][i] = 1;
 			
-			System.out.println(i);
-			System.out.println(j);
-			
 			line = in.readLine();
 	    }
 		
