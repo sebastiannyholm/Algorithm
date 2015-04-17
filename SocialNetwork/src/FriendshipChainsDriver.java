@@ -11,11 +11,16 @@ class FriendshipChains {
 	private int person, distance;
 	private String[] names;
 	private List<List<Integer>> incidenslist = new ArrayList<List<Integer>>();
+	private int n;
+	
+//	long startTime;
+//	long endTime;
+//	long totalTime;
 	
 	public FriendshipChains() throws IOException {
 		
 		setIncidenslist();
-		System.out.println(friendshipChains());
+		System.out.println(friendshipChains2());
 		
 	}
 	
@@ -23,9 +28,10 @@ class FriendshipChains {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
-		StringTokenizer st = new StringTokenizer(in.readLine());
+		String line = in.readLine();
+		StringTokenizer st = new StringTokenizer(line);
 		
-		int n = st.countTokens();
+		n = st.countTokens();
 		
 		names = new String[n];
 		
@@ -34,7 +40,7 @@ class FriendshipChains {
 			names[i] = st.nextToken();
 		}
 		
-		String line = in.readLine();
+		line = in.readLine();
 		while (!line.contains("tvenner")) {
 			
 			st = new StringTokenizer(line);
@@ -58,6 +64,8 @@ class FriendshipChains {
 	
 	public String friendshipChains() {
 
+//		startTime = System.currentTimeMillis();
+		
 		String friends = "";
 		
 		List<Integer[]> queue = new ArrayList<Integer[]>();
@@ -90,6 +98,53 @@ class FriendshipChains {
 				friends += " ";
 			}
 		}
+		
+//		endTime = System.currentTimeMillis();
+//    	totalTime = endTime - startTime;
+//    	System.out.println("\n-------------------------");
+//    	System.out.println("Tid:");
+//    	System.out.println(totalTime);
+		
+		return friends;
+	}
+	
+	public String friendshipChains2() {
+
+//		startTime = System.currentTimeMillis();
+		
+		String friends = "";
+		
+		int[][] chain = new int[distance+1][n];
+		
+		chain[0][person] = 1;
+		
+		for (int i = 0; i < distance; i++) {
+			for (int j = 0; j < n; j++) {
+				if (chain[i][j] == 1) {
+					chain[i+1][j] = 1;
+					for (int l = 0; l < incidenslist.get(j).size(); l++) {
+						chain[i+1][incidenslist.get(j).get(l)] = 1;
+					}
+				}
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			
+			
+			if (chain[distance][i] == 1) {
+				if (i != 0 && !friends.equals(""))
+					friends += " ";
+				friends += names[i];
+			}
+				
+		}
+		
+//		endTime = System.currentTimeMillis();
+//    	totalTime = endTime - startTime;
+//    	System.out.println("\n-------------------------");
+//    	System.out.println("Tid:");
+//    	System.out.println(totalTime);
 		
 		return friends;
 	}
