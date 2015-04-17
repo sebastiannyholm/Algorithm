@@ -29,9 +29,10 @@ class CloseFriendships {
 		while (!line.contains("taetvenskab")) {
 			
 			st = new StringTokenizer(line);
+	
 			int i = Integer.parseInt(st.nextToken());
 			int j = Integer.parseInt(st.nextToken());
-
+			
 			incidensmatrix[i][j] = 1;
 			incidensmatrix[j][i] = 1;
 			
@@ -51,16 +52,10 @@ class CloseFriendships {
 
 	public String checkForCloseFriendships() {
 		
-		for (int i = 0; i < closeFriends.length; i++) {
-
-			for (int j = 0; j < closeFriends.length; j++) {
-				if (i == j)
-					continue;
+		for (int i = 1; i < closeFriends.length; i++)
+			for (int j = i+1; j < closeFriends.length; j++)
 				if (incidensmatrix[closeFriends[i]][closeFriends[j]] != 1)
 					return "nej";
-			}
-			
-		}
 		
 		return "ja";
 		
