@@ -131,7 +131,6 @@ class FriendshipChains {
 		
 		for (int i = 0; i < n; i++) {
 			
-			
 			if (chain[distance][i] == 1) {
 				if (i != 0 && !friends.equals(""))
 					friends += " ";
