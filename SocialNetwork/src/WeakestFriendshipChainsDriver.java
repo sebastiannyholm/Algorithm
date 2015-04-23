@@ -2,15 +2,72 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
+class Person {
+	
+	private int index;
+	private String name;
+	private List<Person> friends = new ArrayList<Person>(); 
+	private List<Integer> strength = new ArrayList<Integer>();
+	private Map<Person, Integer> friendList = new HashMap<Person, Integer>();
+	
+	public Person(int index, String name) {
+		this.index = index;
+		this.name = name;
+	}
+	
+	public void addFriend(Person friend, Integer strength) {
+		this.friends.add(friend);
+		this.strength.add(strength);
+		friendList.put(friend, strength);
+	}
+	
+}
+
+class MyTree {
+	
+	private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+	private String wayBack = "";
+	
+	public void insert(Integer friend, Integer parent) {
+		map.put(friend, parent);
+	}
+	
+	public void changeParent(Integer friend, Integer newParent) {
+		map.put(friend, newParent);
+	}
+	
+	public String getParent(Integer friend) {
+		wayBack += friend + " ";
+		if (map.get(friend) != null)
+			return getParent(map.get(friend));
+		 
+		return wayBack;
+	}
+	
+	public String getWayBack(Integer friend) {
+		
+		String chain =  "" + String.valueOf(friend) + " ";
+		
+		getParent(map.get(friend));
+		for (Integer key : map.keySet()) {
+			chain += " " + String.valueOf(map.get(key)) + " ";
+		}
+		
+		return map.toString();
+	}
+	
+}
 
 class WeakestFriendshipChains {
-	
+
 	private int start, end;
 	private String[] names;
-	private List<List<Integer[]>> incidenslist = new ArrayList<List<Integer[]>>();
+	private List<Person> incidenslist = new ArrayList<Person>();
 	private int n;
 	
 	public WeakestFriendshipChains() throws IOException {
@@ -26,14 +83,13 @@ class WeakestFriendshipChains {
 		
 		StringTokenizer st = new StringTokenizer(line);
 		
-		int n = st.countTokens();
+		n = st.countTokens();
 		
-		for (int i = 0; i < n; i++) {
-			incidenslist.add(new ArrayList<Integer[]>());
-		}
+		for (int i = 0; i < n; i++) 
+			incidenslist.add(new Person(i, st.nextToken()));
 		
 		line = in.readLine();
-		while (!line.contains("taetvenskab")) {
+		while (!line.contains("svagestevenskab")) {
 			
 			st = new StringTokenizer(line);
 			
@@ -41,8 +97,8 @@ class WeakestFriendshipChains {
 			int j = Integer.parseInt(st.nextToken());
 			int strength = Integer.parseInt(st.nextToken());
 			
-			incidenslist.get(i).add(new Integer[] {j, strength});
-			incidenslist.get(j).add(new Integer[] {i, strength});
+			incidenslist.get(i).addFriend(incidenslist.get(j), strength);
+			incidenslist.get(j).addFriend(incidenslist.get(i), strength);
 			
 			line = in.readLine();
 	    }
@@ -57,7 +113,61 @@ class WeakestFriendshipChains {
 	}
 
 	private String checkForWeakestFriendshipChain() {
-		return "";
+		
+		PriorityQueue priorityQueue = new PriorityQueue();
+		List<Person> marked = new ArrayList<Person>();
+		List<Person> used = new ArrayList<Person>();
+		
+		MyTree myTree = new MyTree();
+		Integer[] distance = new Integer[n];
+		
+		int friend, between;
+		String friends = "Done";
+		
+		Integer[] currentStats = new Integer[2];
+		int currentFriend = start;
+		int currentDistance = 0;
+		
+		marked.add(currentFriend);
+		used.add(currentFriend);
+		myTree.insert(currentFriend, null);
+		
+		while (currentFriend != end) {
+			System.out.println("Check: " + currentFriend);
+			used.add(currentFriend);
+			
+			for (int i = 0; i < incidenslist.get(currentFriend).size(); i++) {
+				
+				friend = incidenslist.get(currentFriend).get(i)[0];
+				between = incidenslist.get(currentFriend).get(i)[1];
+				
+				System.out.println("For: " + friend);
+				
+				if (!used.contains(friend)) {
+					if (!marked.contains(friend)) {
+						priorityQueue.insert(friend, currentDistance+ between);
+						distance[friend] = currentDistance + between;
+						marked.add(currentFriend);
+						myTree.insert(friend, currentFriend);
+					} else {
+						// Change if key is less then current key
+						if (currentDistance + between < distance[friend] ) {
+							priorityQueue.changeKey(friend, currentFriend + between);
+							myTree.changeParent(friend, currentFriend);
+						}
+					}
+				}
+				
+			}
+			
+			currentStats = priorityQueue.extractMin();
+			
+			currentFriend = currentStats[0];
+			currentDistance = currentStats[1];
+			
+		}
+		
+		return myTree.getParent(end);
 	}
 	
 }
