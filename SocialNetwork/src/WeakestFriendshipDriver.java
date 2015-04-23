@@ -6,21 +6,21 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
-class FriendshipChains {
+class WeakestFriendships {
 	
 	private int person, distance;
 	private String[] names;
-	private List<List<Integer>> incidenslist = new ArrayList<List<Integer>>();
+	private List<List<List<Integer>>> incidenslistWeighed = new ArrayList<List<List<Integer>>>();
 	private int n;
 	
 //	long startTime;
 //	long endTime;
 //	long totalTime;
 	
-	public FriendshipChains() throws IOException {
+	public WeakestFriendships() throws IOException {
 		
 		setIncidenslist();
-		System.out.println(friendshipChains2());
+		System.out.println(weakestFriendship());
 		
 	}
 	
@@ -36,7 +36,7 @@ class FriendshipChains {
 		names = new String[n];
 		
 		for ( int i = 0; i < n; i++ ) {
-			incidenslist.add(new ArrayList<Integer>());
+			incidenslistWeighed.add(new ArrayList<Integer>());
 			names[i] = st.nextToken();
 		}
 		
@@ -55,14 +55,14 @@ class FriendshipChains {
 		
 		st = new StringTokenizer(line);
 		
-		st.nextToken();		// skips the "taetvenskab" token
+		st.nextToken();		// skips the "tvenner" token
 		
 		person = Integer.parseInt(st.nextToken());
 		distance = Integer.parseInt(st.nextToken());		
 			
 	}
 	
-	public String friendshipChains() {
+	public String weakestFriendship() {
 
 //		startTime = System.currentTimeMillis();
 		
@@ -151,11 +151,11 @@ class FriendshipChains {
 	
 }
 
-public class FriendshipChainsDriver {
+public class WeakestFriendshipDriver {
 	
 	public static void main(String[] args) throws IOException {
 		
-		new FriendshipChains();
+		new WeakestFriendships();
 	
 	}
 }
