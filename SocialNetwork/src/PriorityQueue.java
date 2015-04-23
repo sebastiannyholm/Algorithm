@@ -28,6 +28,10 @@ public class PriorityQueue<T> {
 	 * @return The element with the lowest associated key.
 	 */
 	public T extractMin() {
+		if (elements.size() == 0) {
+			throw new RuntimeException("The PriorityQueue is empty");
+		}
+	
 		T max = elements.get(0);
 		
 		swap(0, keys.size() - 1);
@@ -36,6 +40,7 @@ public class PriorityQueue<T> {
 		elements.remove(elements.size() - 1);
 		
 		bubbleDown(0);
+		map.remove(max);
 		
 		return max;
 	}
@@ -46,6 +51,10 @@ public class PriorityQueue<T> {
 	 * @param newKey The new key associated to the element.
 	 */
 	public void changeKey(T element, int newKey) {
+		if (!map.containsKey(element)) {
+			throw new RuntimeException("The PriorityQueue does not contain the element: " + element);
+		}
+
 		int index = map.get(element);
 		keys.set(index, newKey);
 		bubbleUp(index);
