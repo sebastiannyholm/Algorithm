@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PriorityQueue {
-	private ArrayList<Integer> elements = new ArrayList<Integer>();
+public class PriorityQueue<T> {
+	private ArrayList<T> elements = new ArrayList<T>();
 	private ArrayList<Integer> keys = new ArrayList<Integer>();
-	private HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+	private HashMap<T, Integer> map = new HashMap<T, Integer>();
 
 	/**
 	 * Inserts an element with a given key.
 	 * @param element The element to insert.
 	 * @param key The associated key.
 	 */
-	public void insert(int element, int key) {
+	public void insert(T element, int key) {
 		if (map.containsKey(element)) {
 			throw new RuntimeException("The PriorityQueue already contains the element: " + element);
 		}
@@ -27,8 +27,12 @@ public class PriorityQueue {
 	 * Returns the element with the lowest associated key.
 	 * @return The element with the lowest associated key.
 	 */
-	public Integer[] extractMin() {
-		Integer max[] = {elements.get(0), keys.get(0)};
+	public T extractMin() {
+		if (elements.size() == 0) {
+			throw new RuntimeException("The PriorityQueue is empty");
+		}
+	
+		T max = elements.get(0);
 		
 		swap(0, keys.size() - 1);
 		
@@ -36,6 +40,7 @@ public class PriorityQueue {
 		elements.remove(elements.size() - 1);
 		
 		bubbleDown(0);
+		map.remove(max);
 		
 		return max;
 	}
@@ -45,7 +50,11 @@ public class PriorityQueue {
 	 * @param element The element to change.
 	 * @param newKey The new key associated to the element.
 	 */
-	public void changeKey(int element, int newKey) {
+	public void changeKey(T element, int newKey) {
+		if (!map.containsKey(element)) {
+			throw new RuntimeException("The PriorityQueue does not contain the element: " + element);
+		}
+
 		int index = map.get(element);
 		keys.set(index, newKey);
 		bubbleUp(index);
@@ -103,7 +112,7 @@ public class PriorityQueue {
 		keys.set(i, keys.get(j));
 		keys.set(j, tKey);
 		
-		Integer tElement = elements.get(i);
+		T tElement = elements.get(i);
 		elements.set(i, elements.get(j));
 		elements.set(j, tElement);
 
