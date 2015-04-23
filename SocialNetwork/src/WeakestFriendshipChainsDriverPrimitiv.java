@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-class FriendPath {		// constructs a tree, covering the branches of and in between friends
+class FriendPathPrimitiv {		// constructs a tree, covering the branches of and in between friends
 	
 	private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 	private List<Integer> reversedNames = new ArrayList<Integer>();
@@ -31,7 +31,7 @@ class FriendPath {		// constructs a tree, covering the branches of and in betwee
 	}
 }
 
-class WeakestFriendshipChains {
+class WeakestFriendshipChainsPrimitiv {
 
 	private int start, end;
 	private String[] names;
@@ -42,7 +42,7 @@ class WeakestFriendshipChains {
 	long endTime;
 //	long totalTime;
 	
-	public WeakestFriendshipChains() throws IOException {
+	public WeakestFriendshipChainsPrimitiv() throws IOException {
 		setIncidenslist();
 		System.out.println(checkForWeakestFriendshipChain());
 	}
@@ -103,7 +103,7 @@ class WeakestFriendshipChains {
 		List<Integer> used = new ArrayList<Integer>();
 		List<Integer[]> friendList = new ArrayList<Integer[]>();
 		
-		FriendPath friendPath = new FriendPath();
+		FriendPathPrimitiv friendPath = new FriendPathPrimitiv();
 		Integer[] distance = new Integer[n];
 		String namesOnPath = "";
 		List<Integer> reversedNames = new ArrayList<Integer>();
