@@ -13,7 +13,7 @@ class CloseFriendships {
 	public CloseFriendships() throws IOException {
 		
 		setIncidenslist();
-		System.out.println(checkForCloseFriendships());
+		System.out.println(checkForCloseFriendships2());
 		
 	}
 	
@@ -112,6 +112,29 @@ class CloseFriendships {
 		 */
 		return "ja";
 		
+	}
+
+	public String checkForCloseFriendships2() { 
+		
+		for (int i = 0; i < closeFriends.length; i++) {
+			for (int j = i + 1; j < closeFriends.length; j++) {
+				if (!areFriends(closeFriends[i], closeFriends[j]))
+					return "nej";
+			}
+		}
+		return "ja";
+		
+	}
+
+	private boolean areFriends(int currentFriend, int checkFriend) { 
+		
+		for (Integer friend : incidenslist.get(currentFriend)) {
+			if (friend == checkFriend) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }
