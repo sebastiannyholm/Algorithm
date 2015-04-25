@@ -1,3 +1,4 @@
+package closeFriendships;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +14,7 @@ class CloseFriendships {
 	public CloseFriendships() throws IOException {
 		
 		setIncidenslist();
-		System.out.println(checkForCloseFriendships2());
+		System.out.println(checkForCloseFriendships());
 		
 	}
 	
@@ -56,65 +57,7 @@ class CloseFriendships {
 		
 	}
 
-	public String checkForCloseFriendships() {
-		
-		int currentFriend, checked;
-		
-		/*
-		 * Run through the whole array with the closeFriends
-		 * Set the currentFriend as the "i" friend in the closeFriends array
-		 * Set checked close friends to 0, since we haven't checked any yet 
-		 */
-		for (int i = 0; i < closeFriends.length; i++) {
-			currentFriend = closeFriends[i];
-			checked = 0;
-			
-			/*
-			 * Run through the whole currentFriend friend list
-			 */
-			for (int j = 0; j < incidenslist.get(currentFriend).size(); j++) {
-				
-				/*
-				 * Run through the closeFriends array again, to check if all the closeFriends are in the currentFriend friend list
-				 * If the friend is found, set checked++, to remember how many friends there has been found in the currentFriend friend list
-				 */
-				for (int l = 0; l < closeFriends.length; l++) {
-				
-					if (i == l)
-						continue;
-					
-					if (incidenslist.get(currentFriend).get(j) == closeFriends[l]) {
-						checked++;
-						break;
-					}
-					
-				}
-				
-				/*
-				 * Check if all closeFriends had been found for the currentFriend and break it they have.
-				 */
-				if (checked == closeFriends.length - 1)
-					break;
-				
-			}
-			
-			/*
-			 * Check if all the closeFriends has been found for the currentFriend
-			 * If not, return "nej", since they were not all friends
-			 */
-			if (checked < closeFriends.length - 1)
-				return "nej";
-			
-		}
-		
-		/*
-		 * Return "ja", because all the close friends were friends
-		 */
-		return "ja";
-		
-	}
-
-	public String checkForCloseFriendships2() { 
+	public String checkForCloseFriendships() { 
 		
 		for (int i = 0; i < closeFriends.length; i++) {
 			for (int j = i + 1; j < closeFriends.length; j++) {
@@ -123,7 +66,6 @@ class CloseFriendships {
 			}
 		}
 		return "ja";
-		
 	}
 
 	private boolean areFriends(int currentFriend, int checkFriend) { 
